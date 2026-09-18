@@ -11,6 +11,7 @@ authors:
   - family-names: "Choksi"
     given-names: "Harshal Amit"
 license: MIT
+repository-code: "https://github.com/yeddula-research/ecm-digital-thread-toolkit"
 preferred-citation:
   type: conference-paper
   title: "Accelerating the Digital Thread in Heavy Machinery using Power BI and NLP to Mitigate Bottlenecks in the Engineering Change Management (ECM) Lifecycle"

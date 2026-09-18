@@ -123,7 +123,7 @@ ecm-digital-thread-toolkit/
 ## Quick start
 
 ```bash
-git clone <this-repo-url>
+git clone https://github.com/yeddula-research/ecm-digital-thread-toolkit.git
 cd ecm-digital-thread-toolkit
 python -m venv .venv && source .venv/bin/activate      # optional but recommended
 pip install -r requirements.txt
