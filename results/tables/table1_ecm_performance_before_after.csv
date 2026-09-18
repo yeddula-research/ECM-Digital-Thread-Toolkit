@@ -1,0 +1,7 @@
+Metric,Before Implementation,After Implementation,Improvement (%)
+Change Cycle Time (days),18.82,9.9,47.4% down
+Approval Pending Rate (%),27.5,13.0,52.7% down
+First-Pass Approval Rate (%),63.5,81.0,27.6% up
+Traceability Coverage Index (%),63.5,91.5,44.1% up
+Documentation Error Rate (%),19.0,10.5,44.7% down
+Change Propagation Index (%),81.12,95.38,17.6% up

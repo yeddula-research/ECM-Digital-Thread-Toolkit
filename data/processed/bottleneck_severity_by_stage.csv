@@ -1,0 +1,25 @@
+month,workflow_stage,mean_cct_days,mean_queue_depth,first_pass_approval_rate,BSS,is_bottleneck
+1,Design Review,17.27,3.44,0.6727,0.7725,False
+1,Quality Approval,28.31,6.79,0.5952,1.3207,True
+1,Manufacturing,18.28,4.25,0.6136,0.8685,False
+1,Final Release,13.9,3.34,0.6441,0.6802,False
+2,Design Review,15.3,3.55,0.55,0.7665,False
+2,Quality Approval,21.99,5.17,0.5833,1.0603,True
+2,Manufacturing,19.21,4.43,0.6275,0.9219,False
+2,Final Release,13.9,3.0,0.6585,0.6661,False
+3,Design Review,12.24,3.81,0.6415,0.6764,False
+3,Quality Approval,18.77,5.13,0.7778,0.9205,False
+3,Manufacturing,16.77,4.24,0.7931,0.7995,False
+3,Final Release,13.18,3.55,0.6364,0.6838,False
+4,Design Review,13.02,3.6,0.7759,0.6746,False
+4,Quality Approval,15.57,4.45,0.8158,0.8007,False
+4,Manufacturing,13.89,4.16,0.6667,0.7628,False
+4,Final Release,12.23,3.55,0.717,0.6608,False
+5,Design Review,11.9,3.66,0.7727,0.6551,False
+5,Quality Approval,11.62,4.13,0.7447,0.6901,False
+5,Manufacturing,12.66,4.1,0.8103,0.7031,False
+5,Final Release,10.93,3.31,0.8039,0.5956,False
+6,Design Review,10.25,4.11,0.7778,0.6238,False
+6,Quality Approval,9.64,4.33,0.8571,0.6078,False
+6,Manufacturing,10.94,4.13,0.8077,0.6383,False
+6,Final Release,8.92,3.84,0.8033,0.5626,False

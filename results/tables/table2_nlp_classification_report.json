@@ -1,0 +1,45 @@
+{
+  "Cost-Driven": {
+    "precision": 0.9038461538461539,
+    "recall": 0.9215686274509803,
+    "f1-score": 0.912621359223301,
+    "support": 51.0
+  },
+  "Customer-Requested": {
+    "precision": 0.9117647058823529,
+    "recall": 0.8157894736842105,
+    "f1-score": 0.8611111111111112,
+    "support": 38.0
+  },
+  "Performance-Related": {
+    "precision": 0.875,
+    "recall": 0.9459459459459459,
+    "f1-score": 0.9090909090909091,
+    "support": 37.0
+  },
+  "Regulatory Compliance": {
+    "precision": 0.92,
+    "recall": 0.92,
+    "f1-score": 0.92,
+    "support": 25.0
+  },
+  "Safety-Critical": {
+    "precision": 0.9310344827586207,
+    "recall": 0.9310344827586207,
+    "f1-score": 0.9310344827586207,
+    "support": 29.0
+  },
+  "accuracy": 0.9055555555555556,
+  "macro avg": {
+    "precision": 0.9083290684974255,
+    "recall": 0.9068677059679515,
+    "f1-score": 0.9067715724367884,
+    "support": 180.0
+  },
+  "weighted avg": {
+    "precision": 0.9062122926093514,
+    "recall": 0.9055555555555556,
+    "f1-score": 0.90501263988319,
+    "support": 180.0
+  }
+}

@@ -1,0 +1,16 @@
+# Core (required) — all open source, pinned to major versions used during development
+numpy>=1.26
+pandas>=2.0
+scikit-learn>=1.3
+scipy>=1.11
+matplotlib>=3.8
+seaborn>=0.13
+
+# Optional — NER upgrade (falls back to built-in regex NER if absent)
+# spacy>=3.7
+# en_core_web_sm (install via: python -m spacy download en_core_web_sm)
+
+# Optional — transformer fine-tuning path (Section III.G replication)
+# Not required to reproduce the tool's default results/figures/tables.
+# torch>=2.2
+# transformers>=4.38

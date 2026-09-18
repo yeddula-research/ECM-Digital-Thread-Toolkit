@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ECM Digital Thread — Analytics Dashboard (open-source)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1420; --card: #171d2b; --text: #e8ecf4; --muted: #9aa4b8;
+    --accent: #4f8cff; --good: #35c98f; --bad: #ff6161; --border: #232b3d;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg); color: var(--text);
+  }
+  header { padding: 24px 32px 8px; }
+  header h1 { margin: 0 0 4px; font-size: 22px; }
+  header p { margin: 0; color: var(--muted); font-size: 13px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; padding: 20px 32px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+  .kpi .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+  .kpi .value { font-size: 28px; font-weight: 700; margin-top: 6px; }
+  .kpi .delta { font-size: 12px; margin-top: 4px; }
+  .delta.good { color: var(--good); }
+  .delta.bad { color: var(--bad); }
+  .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 16px; padding: 0 32px 32px; }
+  .chart-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+  .chart-card h3 { margin: 0 0 12px; font-size: 14px; color: var(--muted); font-weight: 600; }
+  canvas { max-height: 320px; }
+  footer { padding: 16px 32px 40px; color: var(--muted); font-size: 12px; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <h1>ECM Digital Thread — Analytics Dashboard</h1>
+  <p>Real-time KPI monitoring, bottleneck detection, and traceability analytics for the
+     Engineering Change Management (ECM) lifecycle in heavy machinery manufacturing.</p>
+</header>
+
+<div class="grid" id="kpi-grid"></div>
+
+<div class="charts">
+  <div class="chart-card"><h3>Change Cycle Time by Month (days)</h3><canvas id="cctChart"></canvas></div>
+  <div class="chart-card"><h3>First-Pass Approval Rate Trend (%)</h3><canvas id="fparChart"></canvas></div>
+  <div class="chart-card"><h3>Traceability Coverage Index Trend (%)</h3><canvas id="tciChart"></canvas></div>
+  <div class="chart-card"><h3>Approval Pipeline Bottleneck Severity by Stage (First vs Latest Period)</h3><canvas id="bssChart"></canvas></div>
+  <div class="chart-card"><h3>ECM Change Requests by Class</h3><canvas id="classChart"></canvas></div>
+  <div class="chart-card"><h3>NLP Classifier — Precision / Recall / F1 by Class</h3><canvas id="nlpChart"></canvas></div>
+</div>
+
+<footer>
+  ECM Digital Thread Toolkit · Full pipeline and source available in the project repository.
+</footer>
+
+<script>
+const DATA = {"months": ["Jan 2025", "Feb 2025", "Mar 2025", "Apr 2025", "May 2025", "Jun 2025"], "month1_label": "Jan 2025", "month6_label": "Jun 2025", "cct": [18.82, 17.61, 15.23, 13.52, 11.81, 9.9], "fpar": [63.5, 60.0, 71.5, 74.0, 78.5, 81.0], "tci": [63.5, 69.5, 73.0, 79.0, 83.0, 91.5], "stages": ["Design Review", "Quality Approval", "Manufacturing", "Final Release"], "bss_before": [0.772, 1.321, 0.869, 0.68], "bss_after": [0.624, 0.608, 0.638, 0.563], "class_labels": ["Cost-Driven", "Customer-Requested", "Performance-Related", "Safety-Critical", "Regulatory Compliance"], "class_counts": [339, 258, 251, 189, 163], "nlp_labels": ["Cost-Driven", "Customer-Requested", "Performance-Related", "Regulatory Compliance", "Safety-Critical"], "nlp_precision": [0.904, 0.912, 0.875, 0.92, 0.931], "nlp_recall": [0.922, 0.816, 0.946, 0.92, 0.931], "nlp_f1": [0.913, 0.861, 0.909, 0.92, 0.931], "kpi_cards": [{"label": "Change Cycle Time", "value": "9.9 days", "delta": "\u2193 47.4% vs Jan 2025", "good": true}, {"label": "Approval Pending Rate", "value": "13.0%", "delta": "\u2193 52.7% vs Jan 2025", "good": true}, {"label": "First-Pass Approval Rate", "value": "81.0%", "delta": "\u2191 27.6% vs Jan 2025", "good": true}, {"label": "Traceability Coverage Index", "value": "91.5%", "delta": "\u2191 44.1% vs Jan 2025", "good": true}, {"label": "Documentation Error Rate", "value": "10.5%", "delta": "\u2193 44.7% vs Jan 2025", "good": true}, {"label": "Change Propagation Index", "value": "95.4%", "delta": "\u2191 17.6% vs Jan 2025", "good": true}]};
+
+function kpiCard(label, value, delta, good) {
+  const div = document.createElement('div');
+  div.className = 'card kpi';
+  div.innerHTML = `<div class="label">${label}</div><div class="value">${value}</div>` +
+    (delta !== undefined ? `<div class="delta ${good ? 'good' : 'bad'}">${delta}</div>` : '');
+  return div;
+}
+
+const grid = document.getElementById('kpi-grid');
+DATA.kpi_cards.forEach(c => grid.appendChild(kpiCard(c.label, c.value, c.delta, c.good)));
+
+const palette = ['#4f8cff', '#35c98f', '#ffb454', '#ff6161', '#b26bff', '#3ad0d0'];
+
+new Chart(document.getElementById('cctChart'), {
+  type: 'line',
+  data: { labels: DATA.months, datasets: [{ label: 'CCT (days)', data: DATA.cct, borderColor: palette[0], tension: 0.35, fill: false }] },
+  options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false } } }
+});
+
+new Chart(document.getElementById('fparChart'), {
+  type: 'line',
+  data: { labels: DATA.months, datasets: [{ label: 'FPAR (%)', data: DATA.fpar, borderColor: palette[1], tension: 0.35, fill: false }] },
+  options: { plugins: { legend: { display: false } } }
+});
+
+new Chart(document.getElementById('tciChart'), {
+  type: 'line',
+  data: { labels: DATA.months, datasets: [{ label: 'TCI (%)', data: DATA.tci, borderColor: palette[2], tension: 0.35, fill: false }] },
+  options: { plugins: { legend: { display: false } } }
+});
+
+new Chart(document.getElementById('bssChart'), {
+  type: 'bar',
+  data: {
+    labels: DATA.stages,
+    datasets: [
+      { label: DATA.month1_label + ' (before)', data: DATA.bss_before, backgroundColor: palette[3] },
+      { label: DATA.month6_label + ' (after)', data: DATA.bss_after, backgroundColor: palette[0] },
+    ]
+  },
+  options: { plugins: { legend: { position: 'bottom' } } }
+});
+
+new Chart(document.getElementById('classChart'), {
+  type: 'doughnut',
+  data: { labels: DATA.class_labels, datasets: [{ data: DATA.class_counts, backgroundColor: palette }] },
+  options: { plugins: { legend: { position: 'right' } } }
+});
+
+new Chart(document.getElementById('nlpChart'), {
+  type: 'bar',
+  data: {
+    labels: DATA.nlp_labels,
+    datasets: [
+      { label: 'Precision', data: DATA.nlp_precision, backgroundColor: palette[0] },
+      { label: 'Recall', data: DATA.nlp_recall, backgroundColor: palette[1] },
+      { label: 'F1', data: DATA.nlp_f1, backgroundColor: palette[2] },
+    ]
+  },
+  options: { plugins: { legend: { position: 'bottom' } }, scales: { y: { min: 0, max: 1 } } }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ecm-digital-thread-toolkit"
+version = "1.0.0"
+description = "Open-source reproducibility toolkit for 'Accelerating the Digital Thread in Heavy Machinery using Power BI and NLP to Mitigate Bottlenecks in the ECM Lifecycle' (ICCBI-2026)"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Vijayakumar Reddy Yeddula" },
+    { name = "Shahnawaz Shakil Shaikh" },
+    { name = "Harshal Amit Choksi" },
+]
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.0",
+    "scikit-learn>=1.3",
+    "scipy>=1.11",
+    "matplotlib>=3.8",
+    "seaborn>=0.13",
+]
+
+[project.optional-dependencies]
+transformer = ["torch>=2.2", "transformers>=4.38"]
+dev = ["pytest>=7.4"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

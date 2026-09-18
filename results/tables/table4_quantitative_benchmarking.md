@@ -1,0 +1,6 @@
+| Framework                  |   Change Cycle Time Reduction (%) |   First-Pass Approval Rate (%) |   Traceability Coverage (%) |   Documentation Error Reduction (%) |
+|:---------------------------|----------------------------------:|-------------------------------:|----------------------------:|------------------------------------:|
+| Traditional ECM Systems    |                              12.4 |                             52 |                          48 |                                18   |
+| Process Mining-Based ECM   |                              26.8 |                             64 |                          67 |                                34   |
+| AI-Assisted Predictive ECM |                              35.2 |                             73 |                          79 |                                46   |
+| Proposed Framework         |                              44.9 |                             81 |                          92 |                                61.9 |
