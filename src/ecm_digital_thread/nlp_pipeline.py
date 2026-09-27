@@ -1,5 +1,5 @@
 """
-NLP-based change request processing — replicates Section III.C (Layer 3) and
+NLP-based change request processing — implements Section III.C (Layer 3) and
 III.G of the paper: preprocessing -> TF-IDF feature extraction (Eq. 2) ->
 multi-class classification into the 5 ECM domains -> Named Entity Recognition
 for structured metadata (part numbers, assembly IDs, responsible teams).
@@ -9,23 +9,20 @@ Two classification backends are provided:
     1. ``sklearn`` (default, always available): TF-IDF + a linear classifier
        (LinearSVC by default, Logistic Regression as an alternative). This is
        the backend the bundled results/tables/figures were produced with —
-       it needs no GPU, no model download, and trains in seconds, which
-       matters for a reproducibility artifact other researchers will actually
-       run.
+       it needs no GPU, no model download, and trains in seconds.
     2. ``transformer`` (optional): fine-tunes a pretrained BERT-family model
        (default ``bert-base-uncased``) exactly as described in Section III.G
        — 70:15:15 split, AdamW, lr=2e-5, batch size 16, 5 epochs, max sequence
        length 256, cross-entropy loss, early stopping. Requires
        ``pip install torch transformers`` and internet access to fetch
-       pretrained weights; it is not required to reproduce this repo's
-       bundled results and is skipped gracefully (with an informative error)
-       if the dependencies are absent.
+       pretrained weights; it is not needed for this repo's bundled results
+       and is skipped gracefully (with an informative error) if the
+       dependencies are absent.
 
-Why TF-IDF + linear SVM as the default: it is a faithful, fully open-source,
-CPU-only stand-in for the paper's fine-tuned BERT classifier that any
-researcher can run offline in seconds, while the transformer path is kept as
-a literal implementation of Section III.G for anyone who wants to reproduce
-that exact procedure on their own hardware.
+Why TF-IDF + linear SVM as the default: it is fully open-source, CPU-only,
+and runs offline in seconds. The paper's classifier is a fine-tuned BERT
+model; the transformer backend implements that Section III.G procedure for
+anyone who wants to run it on their own hardware.
 """
 from __future__ import annotations
 
@@ -63,7 +60,7 @@ _SUFFIX_RULES = [
 
 def _lightweight_lemmatize(token: str) -> str:
     """Rule-based suffix stripping — a deliberately simple, dependency-free
-    stand-in for a full lemmatizer (e.g. NLTK WordNet or spaCy), adequate for
+    substitute for a full lemmatizer (e.g. NLTK WordNet or spaCy), adequate for
     domain terms like 'failures'->'failure', 'classified'->'classify'."""
     for suffix, replacement in _SUFFIX_RULES:
         if token.endswith(suffix) and len(token) - len(suffix) + len(replacement) >= 3:
@@ -169,8 +166,8 @@ def _train_transformer(df: pd.DataFrame, seed: int = C.RANDOM_SEED,
             "The 'transformer' backend needs torch + transformers "
             "(`pip install torch transformers`) and internet access to "
             "download pretrained weights. The default 'sklearn' backend "
-            "reproduces this repo's bundled results without either "
-            "dependency; see README.md 'Optional: exact BERT replication'."
+            "produces this repo's bundled results without either "
+            "dependency; see README.md 'Optional: BERT backend'."
         ) from exc
 
     labels_sorted = sorted(C.ECM_CLASS_PRIOR.keys())

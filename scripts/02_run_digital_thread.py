@@ -11,5 +11,5 @@ from ecm_digital_thread.digital_thread import run, traceability_coverage_index
 if __name__ == "__main__":
     udm = run()
     overall_tci = traceability_coverage_index(udm)
-    print(f"[2/5] Digital Thread UDM written -> {C.LINKED_DATASET_CSV}")
+    print(f"[2/6] Digital Thread UDM written -> {C.LINKED_DATASET_CSV}")
     print(f"      Overall Traceability Coverage Index (TCI): {overall_tci}%")

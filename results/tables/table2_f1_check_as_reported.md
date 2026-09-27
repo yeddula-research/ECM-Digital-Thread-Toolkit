@@ -1,0 +1,10 @@
+**Table 2 F1 scores recomputed from the paper's precision and recall**
+
+| Category              |   Precision |   Recall |   F1-Score |   Recomputed F1 |   Difference |
+|:----------------------|------------:|---------:|-----------:|----------------:|-------------:|
+| Safety-Critical       |        0.91 |     0.89 |       0.9  |            0.9  |            0 |
+| Performance-Related   |        0.88 |     0.86 |       0.87 |            0.87 |            0 |
+| Regulatory Compliance |        0.93 |     0.91 |       0.92 |            0.92 |            0 |
+| Cost-Driven           |        0.85 |     0.83 |       0.84 |            0.84 |            0 |
+| Customer-Requested    |        0.87 |     0.85 |       0.86 |            0.86 |            0 |
+| Overall Average       |        0.89 |     0.87 |       0.88 |            0.88 |            0 |

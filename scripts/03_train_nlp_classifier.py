@@ -3,7 +3,7 @@
 
 Usage:
     python scripts/03_train_nlp_classifier.py                # sklearn backend (default)
-    python scripts/03_train_nlp_classifier.py --backend transformer   # exact Sec. III.G replication
+    python scripts/03_train_nlp_classifier.py --backend transformer   # Sec. III.G fine-tuning procedure
 """
 import argparse
 import json
@@ -23,7 +23,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     df, result = run(backend=args.backend)
-    print(f"[3/5] NLP-scored dataset written -> {C.NLP_SCORED_CSV}")
+    print(f"[3/6] NLP-scored dataset written -> {C.NLP_SCORED_CSV}")
 
     report_dict = result.report_dict if hasattr(result, "report_dict") else result["report_dict"]
     (C.RESULTS_TABLES_DIR / "table2_nlp_classification_report.json").write_text(

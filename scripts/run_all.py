@@ -5,7 +5,8 @@
     2. Digital Thread integration + TCI
     3. NLP classification + NER
     4. KPI / Bottleneck Severity Score analytics
-    5. Tables 1-4 + Figures 2-5 + dashboard
+    5. demonstration tables + figures + dashboard
+    6. the paper's Tables 1-4 and consistency checks on them
 
 Usage:
     python scripts/run_all.py [--backend sklearn|transformer]
@@ -23,6 +24,7 @@ STEPS = [
     "03_train_nlp_classifier.py",
     "04_compute_kpis_bottlenecks.py",
     "05_generate_figures_tables.py",
+    "06_published_values.py",
 ]
 
 

@@ -10,7 +10,7 @@ from ecm_digital_thread.kpi_analytics import run
 
 if __name__ == "__main__":
     monthly_kpis, bss = run()
-    print(f"[4/5] Monthly KPI table written -> {C.KPI_MONTHLY_CSV}")
+    print(f"[4/6] Monthly KPI table written -> {C.KPI_MONTHLY_CSV}")
     print(f"      Bottleneck Severity Score table written -> {C.BSS_STAGE_CSV}")
     flagged = bss[bss["is_bottleneck"]]
     if len(flagged):

@@ -11,5 +11,6 @@ from ecm_digital_thread.data_generation import generate_dataset, save_dataset
 if __name__ == "__main__":
     df = generate_dataset()
     save_dataset(df)
-    print(f"[1/5] Generated {len(df)} ECM records -> {C.RAW_DATASET_CSV}")
+    print(f"[1/6] Generated {len(df)} ECM records -> {C.RAW_DATASET_CSV}")
+    print(C.DATASET_DISCLOSURE)
     print(df["ecm_class"].value_counts().to_string())

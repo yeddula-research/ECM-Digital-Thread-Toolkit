@@ -1,3 +1,5 @@
+**Table 4 - Quantitative Benchmarking Against Existing ECM Frameworks (source: the paper)**
+
 | Framework                  |   Change Cycle Time Reduction (%) |   First-Pass Approval Rate (%) |   Traceability Coverage (%) |   Documentation Error Reduction (%) |
 |:---------------------------|----------------------------------:|-------------------------------:|----------------------------:|------------------------------------:|
 | Traditional ECM Systems    |                              12.4 |                             52 |                          48 |                                18   |

@@ -1,8 +1,8 @@
 | Category              |   Precision |   Recall |   F1-Score |
 |:----------------------|------------:|---------:|-----------:|
-| Cost-Driven           |        0.9  |     0.92 |       0.91 |
-| Customer-Requested    |        0.91 |     0.82 |       0.86 |
-| Performance-Related   |        0.88 |     0.95 |       0.91 |
-| Regulatory Compliance |        0.92 |     0.92 |       0.92 |
-| Safety-Critical       |        0.93 |     0.93 |       0.93 |
+| Cost-Driven           |        0.97 |     0.87 |       0.92 |
+| Customer-Requested    |        0.91 |     0.94 |       0.93 |
+| Performance-Related   |        0.9  |     0.97 |       0.94 |
+| Regulatory Compliance |        0.86 |     0.91 |       0.89 |
+| Safety-Critical       |        0.91 |     0.86 |       0.89 |
 | Overall Average       |        0.91 |     0.91 |       0.91 |

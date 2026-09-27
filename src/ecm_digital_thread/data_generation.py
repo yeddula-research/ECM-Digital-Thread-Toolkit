@@ -1,9 +1,8 @@
 """
-ECM dataset generator: produces the 1,200-record engineering change
-management dataset used throughout this toolkit, covering a 6-month
-operational period (``config.DATASET_START_YEAR`` /
-``config.DATASET_START_MONTH``, currently January-June 2025) at a
-heavy-machinery manufacturer:
+Synthetic ECM dataset generator: produces the 1,200-record demonstration
+dataset used throughout this toolkit, dated across a 6-month window
+(``config.DATASET_START_YEAR`` / ``config.DATASET_START_MONTH``, currently
+January-June 2025) for a fictional heavy-machinery manufacturer:
 
     * structured fields  — change order id, timestamps, workflow stage,
       approval outcome, BOM/linkage flags, source system
@@ -16,11 +15,11 @@ heavy-machinery manufacturer:
 
 Month-over-month distribution parameters (mean cycle time, approval
 probabilities, linkage rate, documentation-error rate) are interpolated
-between the "before implementation" and "after implementation" operating
-points in ``config.KPI_TARGETS``, reflecting the gradual rollout and
-closed-loop learning effect of the Digital Thread framework. Individual
-record outcomes are then drawn stochastically from those distributions with
-a fixed random seed for full reproducibility.
+between the month-1 and month-6 operating points of the illustrative
+scenario in ``config.DEMO_SCENARIO``. The trend is therefore an input of the
+scenario; the pipeline's job is to measure it back from the individual
+records, which are drawn stochastically from those distributions with a
+fixed random seed.
 """
 from __future__ import annotations
 
@@ -51,9 +50,9 @@ TEAMS = [
     "Regulatory Affairs", "Structural Engineering", "Electrical Systems",
 ]
 
+# Placeholder supplier names (fictional).
 SUPPLIERS = [
-    "Meridian Hydraulics Inc.", "Continental Driveline Systems",
-    "Apex Sensor Technologies", "Northgate Castings", "Vantage Electronics",
+    "Supplier A", "Supplier B", "Supplier C", "Supplier D", "Supplier E",
 ]
 
 TEXT_TEMPLATES = {
@@ -131,14 +130,11 @@ GENERIC_NOISE_SENTENCES = [
     "Impact assessment on related assemblies is still in progress.",
 ]
 
-# Real ECM text is genuinely ambiguous — a supplier cost swap can carry
-# performance implications, a safety fix can also be regulatory, etc. This
-# confusion map (asymmetric on purpose) lets a second, "confusable" class's
-# template sentence get blended in, which is what makes the classification
-# task realistically hard rather than trivially separable, and produces the
-# class-to-class precision/recall spread seen in real BERT-on-ECM-text
-# benchmarks (Safety-Critical/Regulatory Compliance cleanest, Cost-Driven
-# noisiest).
+# Change-request text often touches more than one category — a supplier cost
+# swap can carry performance implications, a safety fix can also be
+# regulatory. This map lists, for each class, the classes whose vocabulary
+# it plausibly overlaps with; a sentence from one of them is sometimes
+# blended in so the classes are not trivially separable.
 CONFUSION_MAP = {
     "Safety-Critical": ["Regulatory Compliance"],
     "Regulatory Compliance": ["Safety-Critical"],
@@ -147,44 +143,43 @@ CONFUSION_MAP = {
     "Customer-Requested": ["Performance-Related", "Cost-Driven"],
 }
 
-# Probability that a second, confusable-class sentence gets blended into the
-# narrative — tuned per class so the *relative* ordering of classification
-# difficulty is realistic (Cost-Driven hardest, Regulatory/Safety cleanest);
-# not tuned to hit any specific target metric.
-CONFUSION_PROB = {
-    "Safety-Critical": 0.18,
-    "Regulatory Compliance": 0.14,
-    "Performance-Related": 0.32,
-    "Cost-Driven": 0.36,
-    "Customer-Requested": 0.28,
-}
+# Probability that a second, overlapping-class sentence is blended into a
+# narrative. The same value is used for every class, so per-class
+# differences in the classification report come only from which classes
+# share vocabulary in CONFUSION_MAP.
+CONFUSION_PROB_ALL_CLASSES = 0.25
+CONFUSION_PROB = {c: CONFUSION_PROB_ALL_CLASSES for c in CONFUSION_MAP}
+
+
+def _scenario(metric: str, point: str, scale: float = 1.0) -> float:
+    return C.DEMO_SCENARIO[metric][point] / scale
 
 
 @dataclass
 class GenerationParams:
-    """Month-1 ('before') and month-6 ('after') operating points that the
-    generator linearly interpolates across the 6-month window."""
-    mean_cct_before: float = C.KPI_TARGETS["Change Cycle Time (days)"]["before"]
-    mean_cct_after: float = C.KPI_TARGETS["Change Cycle Time (days)"]["after"]
-    fpar_before: float = C.KPI_TARGETS["First-Pass Approval Rate (%)"]["before"] / 100
-    fpar_after: float = C.KPI_TARGETS["First-Pass Approval Rate (%)"]["after"] / 100
-    pending_before: float = C.KPI_TARGETS["Approval Pending Rate (%)"]["before"] / 100
-    pending_after: float = C.KPI_TARGETS["Approval Pending Rate (%)"]["after"] / 100
-    tci_before: float = C.KPI_TARGETS["Traceability Coverage Index (%)"]["before"] / 100
-    tci_after: float = C.KPI_TARGETS["Traceability Coverage Index (%)"]["after"] / 100
-    doc_err_before: float = C.KPI_TARGETS["Documentation Errors (%)"]["before"] / 100
-    doc_err_after: float = C.KPI_TARGETS["Documentation Errors (%)"]["after"] / 100
+    """Month-1 ('before') and month-6 ('after') operating points of the
+    demonstration scenario, linearly interpolated across the 6-month window."""
+    mean_cct_before: float = _scenario("Change Cycle Time (days)", "month_1")
+    mean_cct_after: float = _scenario("Change Cycle Time (days)", "month_6")
+    fpar_before: float = _scenario("First-Pass Approval Rate (%)", "month_1", 100)
+    fpar_after: float = _scenario("First-Pass Approval Rate (%)", "month_6", 100)
+    pending_before: float = _scenario("Approval Pending Rate (%)", "month_1", 100)
+    pending_after: float = _scenario("Approval Pending Rate (%)", "month_6", 100)
+    tci_before: float = _scenario("Traceability Coverage Index (%)", "month_1", 100)
+    tci_after: float = _scenario("Traceability Coverage Index (%)", "month_6", 100)
+    doc_err_before: float = _scenario("Documentation Errors (%)", "month_1", 100)
+    doc_err_after: float = _scenario("Documentation Errors (%)", "month_6", 100)
 
-    # Stage-specific congestion multipliers on cycle time / queue depth,
-    # calibrated so Quality Approval is the dominant bottleneck pre-rollout
-    # (paper Fig. 3) and load rebalances post-rollout.
+    # Stage-specific congestion multipliers on cycle time / queue depth in
+    # the demonstration scenario: uneven load across stages in month 1,
+    # closer to even in month 6.
     stage_multiplier_before: dict = field(default_factory=lambda: {
-        "Design Review": 0.85, "Quality Approval": 1.45,
-        "Manufacturing": 1.05, "Final Release": 0.80,
+        "Design Review": 1.20, "Quality Approval": 1.10,
+        "Manufacturing": 0.95, "Final Release": 0.80,
     })
     stage_multiplier_after: dict = field(default_factory=lambda: {
-        "Design Review": 1.00, "Quality Approval": 0.95,
-        "Manufacturing": 1.10, "Final Release": 0.95,
+        "Design Review": 1.05, "Quality Approval": 1.00,
+        "Manufacturing": 1.00, "Final Release": 0.95,
     })
 
 
@@ -194,16 +189,10 @@ def _interp(before: float, after: float, month: int, n_months: int = C.N_MONTHS)
     return before + t * (after - before)
 
 
-def _draw_class_specific_error_rate(base_rate: float, ecm_class: str, rng: np.random.Generator) -> float:
-    """Documentation-error and misclassification-risk both vary slightly by
-    class complexity, matching the spread seen in Table 2 (Regulatory
-    Compliance / Safety-Critical are cleaner text; Cost-Driven is noisier)."""
-    class_noise = {
-        "Safety-Critical": -0.02, "Regulatory Compliance": -0.03,
-        "Performance-Related": 0.0, "Customer-Requested": 0.01,
-        "Cost-Driven": 0.03,
-    }
-    return float(np.clip(base_rate + class_noise.get(ecm_class, 0.0) + rng.normal(0, 0.01), 0.0, 0.95))
+def _draw_error_rate(base_rate: float, rng: np.random.Generator) -> float:
+    """Record-level documentation-error probability: the month's base rate
+    plus small Gaussian jitter (same for every class)."""
+    return float(np.clip(base_rate + rng.normal(0, 0.01), 0.0, 0.95))
 
 
 def generate_dataset(n_records: int = C.N_RECORDS, seed: int = C.RANDOM_SEED,
@@ -270,7 +259,7 @@ def generate_dataset(n_records: int = C.N_RECORDS, seed: int = C.RANDOM_SEED,
                 linked_quality = rng.random() < 0.45
                 linked_maintenance = rng.random() < 0.35
 
-            doc_err_this = _draw_class_specific_error_rate(doc_err, ecm_class, rng)
+            doc_err_this = _draw_error_rate(doc_err, rng)
             documentation_error = rng.random() < doc_err_this
 
             subsystem = py_rng.choice(SUBSYSTEMS)

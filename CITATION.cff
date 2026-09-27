@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use this toolkit, please cite both the software and the original paper."
 title: "ECM Digital Thread Toolkit"
-version: 1.0.0
-date-released: 2026-09-17
+version: 1.1.0
+date-released: 2026-09-27
 authors:
   - family-names: "Yeddula"
     given-names: "Vijayakumar Reddy"
@@ -23,5 +23,7 @@ preferred-citation:
     - family-names: "Choksi"
       given-names: "Harshal Amit"
   collection-title: "Proceedings of the 5th International Conference on Computer Networks, Big Data and IoT (ICCBI-2026)"
+  start: 655
+  end: 663
   year: 2026
   isbn: "979-8-3315-6379-0"

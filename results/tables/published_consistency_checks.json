@@ -1,0 +1,38 @@
+{
+  "table2_overall_average": {
+    "Precision": {
+      "mean_of_classes": 0.888,
+      "reported": 0.89
+    },
+    "Recall": {
+      "mean_of_classes": 0.868,
+      "reported": 0.87
+    },
+    "F1-Score": {
+      "mean_of_classes": 0.878,
+      "reported": 0.88
+    }
+  },
+  "table4_proposed_row_vs_table1": {
+    "Change Cycle Time Reduction (%)": {
+      "table4": 44.9,
+      "table1": 44.9,
+      "match": true
+    },
+    "First-Pass Approval Rate (%)": {
+      "table4": 81.0,
+      "table1": 81.0,
+      "match": true
+    },
+    "Traceability Coverage (%)": {
+      "table4": 92.0,
+      "table1": 92.0,
+      "match": true
+    },
+    "Documentation Error Reduction (%)": {
+      "table4": 61.9,
+      "table1": 61.9,
+      "match": true
+    }
+  }
+}

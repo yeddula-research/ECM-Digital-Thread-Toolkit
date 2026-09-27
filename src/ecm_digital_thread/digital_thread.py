@@ -1,5 +1,5 @@
 """
-Digital Thread integration layer — replicates Section III.A (Layer 2) and
+Digital Thread integration layer — implements Section III.A (Layer 2) and
 III.B of the paper: a Unified Data Model (UDM) that establishes bidirectional
 traceability links across lifecycle phases (design, manufacturing, quality,
 maintenance) for every engineering change record, and the Traceability

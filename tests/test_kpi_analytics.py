@@ -34,7 +34,7 @@ def _make_df():
 
 def test_bss_manual_calculation():
     df = _make_df()
-    baseline = 18.5
+    baseline = 20.0
     alpha, beta, gamma = 0.5, 0.3, 0.2
     result = bottleneck_severity_score(df, cct_baseline=baseline, alpha=alpha, beta=beta, gamma=gamma)
 

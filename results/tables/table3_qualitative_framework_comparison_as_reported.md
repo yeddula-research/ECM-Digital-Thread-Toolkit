@@ -1,6 +1,8 @@
+**Table 3 - Comparison with Existing AI-Based ECM Frameworks (source: the paper)**
+
 | Framework               | Digital Thread   | NLP Automation   | Real-Time Dashboard   | Bottleneck Detection   | Traceability   |
 |:------------------------|:-----------------|:-----------------|:----------------------|:-----------------------|:---------------|
 | Traditional ECM         | No               | No               | Limited               | Manual                 | Partial        |
 | AI-Based Predictive ECM | Partial          | Limited          | Moderate              | Semi-Automatic         | Moderate       |
 | Process Mining ECM      | Partial          | No               | Moderate              | Automatic              | Moderate       |
-| Proposed Framework      | Yes              | Yes              | Real-Time             | Automatic              | High           |
+| Proposed Framework      | Yes              | Yes              | Real-Time Power BI    | Automatic              | High           |

@@ -36,8 +36,9 @@
 <body>
 <header>
   <h1>ECM Digital Thread — Analytics Dashboard</h1>
-  <p>Real-time KPI monitoring, bottleneck detection, and traceability analytics for the
-     Engineering Change Management (ECM) lifecycle in heavy machinery manufacturing.</p>
+  <p>KPI monitoring, bottleneck detection, and traceability analytics for the
+     Engineering Change Management (ECM) lifecycle in heavy machinery manufacturing.
+     Computed from the toolkit's synthetic demonstration dataset.</p>
 </header>
 
 <div class="grid" id="kpi-grid"></div>
@@ -56,7 +57,7 @@
 </footer>
 
 <script>
-const DATA = {"months": ["Jan 2025", "Feb 2025", "Mar 2025", "Apr 2025", "May 2025", "Jun 2025"], "month1_label": "Jan 2025", "month6_label": "Jun 2025", "cct": [18.82, 17.61, 15.23, 13.52, 11.81, 9.9], "fpar": [63.5, 60.0, 71.5, 74.0, 78.5, 81.0], "tci": [63.5, 69.5, 73.0, 79.0, 83.0, 91.5], "stages": ["Design Review", "Quality Approval", "Manufacturing", "Final Release"], "bss_before": [0.772, 1.321, 0.869, 0.68], "bss_after": [0.624, 0.608, 0.638, 0.563], "class_labels": ["Cost-Driven", "Customer-Requested", "Performance-Related", "Safety-Critical", "Regulatory Compliance"], "class_counts": [339, 258, 251, 189, 163], "nlp_labels": ["Cost-Driven", "Customer-Requested", "Performance-Related", "Regulatory Compliance", "Safety-Critical"], "nlp_precision": [0.904, 0.912, 0.875, 0.92, 0.931], "nlp_recall": [0.922, 0.816, 0.946, 0.92, 0.931], "nlp_f1": [0.913, 0.861, 0.909, 0.92, 0.931], "kpi_cards": [{"label": "Change Cycle Time", "value": "9.9 days", "delta": "\u2193 47.4% vs Jan 2025", "good": true}, {"label": "Approval Pending Rate", "value": "13.0%", "delta": "\u2193 52.7% vs Jan 2025", "good": true}, {"label": "First-Pass Approval Rate", "value": "81.0%", "delta": "\u2191 27.6% vs Jan 2025", "good": true}, {"label": "Traceability Coverage Index", "value": "91.5%", "delta": "\u2191 44.1% vs Jan 2025", "good": true}, {"label": "Documentation Error Rate", "value": "10.5%", "delta": "\u2193 44.7% vs Jan 2025", "good": true}, {"label": "Change Propagation Index", "value": "95.4%", "delta": "\u2191 17.6% vs Jan 2025", "good": true}]};
+const DATA = {"months": ["Jan 2025", "Feb 2025", "Mar 2025", "Apr 2025", "May 2025", "Jun 2025"], "month1_label": "Jan 2025", "month6_label": "Jun 2025", "cct": [19.77, 19.23, 17.99, 16.76, 15.09, 14.41], "fpar": [66.0, 59.5, 62.5, 71.5, 70.0, 69.0], "tci": [51.0, 63.5, 66.5, 76.0, 68.0, 81.5], "stages": ["Design Review", "Quality Approval", "Manufacturing", "Final Release"], "bss_before": [1.025, 0.868, 0.826, 0.734], "bss_after": [0.757, 0.699, 0.738, 0.701], "class_labels": ["Cost-Driven", "Performance-Related", "Safety-Critical", "Regulatory Compliance", "Customer-Requested"], "class_counts": [253, 249, 245, 233, 220], "nlp_labels": ["Cost-Driven", "Customer-Requested", "Performance-Related", "Regulatory Compliance", "Safety-Critical"], "nlp_precision": [0.971, 0.912, 0.902, 0.865, 0.912], "nlp_recall": [0.868, 0.939, 0.974, 0.914, 0.861], "nlp_f1": [0.917, 0.925, 0.937, 0.889, 0.886], "kpi_cards": [{"label": "Change Cycle Time", "value": "14.4 days", "delta": "\u2193 27.1% vs Jan 2025", "good": true}, {"label": "Approval Pending Rate", "value": "21.5%", "delta": "\u2193 36.8% vs Jan 2025", "good": true}, {"label": "First-Pass Approval Rate", "value": "69.0%", "delta": "\u2191 4.5% vs Jan 2025", "good": true}, {"label": "Traceability Coverage Index", "value": "81.5%", "delta": "\u2191 59.8% vs Jan 2025", "good": true}, {"label": "Documentation Error Rate", "value": "12.0%", "delta": "\u2193 11.1% vs Jan 2025", "good": true}, {"label": "Change Propagation Index", "value": "89.5%", "delta": "\u2191 23.0% vs Jan 2025", "good": true}]};
 
 function kpiCard(label, value, delta, good) {
   const div = document.createElement('div');

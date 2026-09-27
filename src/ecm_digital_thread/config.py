@@ -1,6 +1,11 @@
 """
-Central configuration: paths, domain constants, and the KPI operating points
-used to drive the sample dataset generator and the Bottleneck Severity Score.
+Central configuration: paths, domain constants, the demonstration scenario
+that drives the synthetic dataset generator, and the Bottleneck Severity
+Score settings.
+
+Everything here that describes records, months or operating points belongs
+to the synthetic demonstration dataset (see ``DATASET_DISCLOSURE``); none of
+it is taken from the paper's case-study data or results.
 """
 from __future__ import annotations
 import calendar as _calendar
@@ -28,7 +33,7 @@ KPI_MONTHLY_CSV = DATA_PROCESSED_DIR / "kpi_monthly.csv"
 BSS_STAGE_CSV = DATA_PROCESSED_DIR / "bottleneck_severity_by_stage.csv"
 
 # --------------------------------------------------------------------------- #
-# Reproducibility
+# Random seed (fixed, so every run generates the same dataset)
 # --------------------------------------------------------------------------- #
 RANDOM_SEED = 42
 
@@ -70,14 +75,12 @@ ECM_CLASSES = [
     "Customer-Requested",
 ]
 
-# Approximate class prior (calibrated so precision differences in Table 2 are
-# plausible: Regulatory Compliance and Safety-Critical are minority-but-high-
-# precision classes; Cost-Driven is the largest and noisiest class).
+# Class shares in the demonstration scenario: equal for all five classes.
 ECM_CLASS_PRIOR = {
-    "Safety-Critical": 0.17,
-    "Performance-Related": 0.22,
-    "Regulatory Compliance": 0.13,
-    "Cost-Driven": 0.28,
+    "Safety-Critical": 0.20,
+    "Performance-Related": 0.20,
+    "Regulatory Compliance": 0.20,
+    "Cost-Driven": 0.20,
     "Customer-Requested": 0.20,
 }
 
@@ -93,18 +96,31 @@ SOURCE_SYSTEMS = [
 ]
 
 # --------------------------------------------------------------------------- #
-# KPI operating points — the "before implementation" and "after implementation"
-# targets the dataset generator interpolates between across the 6-month
-# window (see data_generation.GenerationParams). These are the headline
-# operational-improvement figures reported in Table 1.
+# Demonstration scenario — month-1 and month-6 operating points that the
+# synthetic dataset generator interpolates between (see
+# data_generation.GenerationParams). They are round, illustrative values
+# chosen for this toolkit so that the pipeline has a before/after trend to
+# measure; they are an input assumption of the demonstration, not an outcome
+# the toolkit measures, and they are not the paper's reported values (those
+# are recorded separately in published.py).
 # --------------------------------------------------------------------------- #
-KPI_TARGETS = {
-    "Change Cycle Time (days)": {"before": 18.5, "after": 10.2, "improvement_pct": 44.9},
-    "Approval Pending Rate (%)": {"before": 32, "after": 14, "improvement_pct": 56.2},
-    "First-Pass Approval Rate (%)": {"before": 58, "after": 81, "improvement_pct": 39.6},
-    "Traceability Coverage Index (%)": {"before": 61, "after": 92, "improvement_pct": 50.8},
-    "Documentation Errors (%)": {"before": 21, "after": 8, "improvement_pct": 61.9},
+DEMO_SCENARIO = {
+    "Change Cycle Time (days)": {"month_1": 20.0, "month_6": 14.0},
+    "Approval Pending Rate (%)": {"month_1": 30.0, "month_6": 20.0},
+    "First-Pass Approval Rate (%)": {"month_1": 60.0, "month_6": 72.0},
+    "Traceability Coverage Index (%)": {"month_1": 55.0, "month_6": 80.0},
+    "Documentation Errors (%)": {"month_1": 15.0, "month_6": 10.0},
 }
+
+# One sentence, used verbatim wherever the dataset is described.
+DATASET_DISCLOSURE = (
+    "The demonstration dataset is synthetic: 1,200 engineering change records "
+    "for a fictional heavy-machinery manufacturer, generated with a fixed "
+    "random seed by scripts/01_generate_dataset.py from the illustrative "
+    "scenario in config.DEMO_SCENARIO; it is not the paper's case-study data, "
+    "and its before/after trend is an input of the scenario rather than a "
+    "measured effect."
+)
 
 # BSS weighting coefficients (Eq. 3): alpha + beta + gamma = 1
 BSS_ALPHA = 0.5   # cycle-time-overrun weight
@@ -112,4 +128,6 @@ BSS_BETA = 0.3    # queue-depth weight
 BSS_GAMMA = 0.2   # (1 - first-pass approval rate) weight
 BSS_FLAG_THRESHOLD = 1.0  # BSS above this is flagged as a critical bottleneck
 
-CCT_BASELINE_DAYS = 18.5  # organizational baseline cycle time ("before" CCT)
+# Organizational baseline cycle time for Eq. 3: the demonstration scenario's
+# month-1 mean change cycle time.
+CCT_BASELINE_DAYS = DEMO_SCENARIO["Change Cycle Time (days)"]["month_1"]

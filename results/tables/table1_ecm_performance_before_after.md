@@ -1,8 +1,8 @@
-| Metric                          |   Before Implementation |   After Implementation | Improvement (%)   |
-|:--------------------------------|------------------------:|-----------------------:|:------------------|
-| Change Cycle Time (days)        |                   18.82 |                   9.9  | 47.4% down        |
-| Approval Pending Rate (%)       |                   27.5  |                  13    | 52.7% down        |
-| First-Pass Approval Rate (%)    |                   63.5  |                  81    | 27.6% up          |
-| Traceability Coverage Index (%) |                   63.5  |                  91.5  | 44.1% up          |
-| Documentation Error Rate (%)    |                   19    |                  10.5  | 44.7% down        |
-| Change Propagation Index (%)    |                   81.12 |                  95.38 | 17.6% up          |
+| Metric                          |   Month 1 |   Month 6 | Change (%)   |
+|:--------------------------------|----------:|----------:|:-------------|
+| Change Cycle Time (days)        |     19.77 |     14.41 | 27.1% down   |
+| Approval Pending Rate (%)       |     34    |     21.5  | 36.8% down   |
+| First-Pass Approval Rate (%)    |     66    |     69    | 4.5% up      |
+| Traceability Coverage Index (%) |     51    |     81.5  | 59.8% up     |
+| Documentation Error Rate (%)    |     13.5  |     12    | 11.1% down   |
+| Change Propagation Index (%)    |     72.75 |     89.5  | 23.0% up     |

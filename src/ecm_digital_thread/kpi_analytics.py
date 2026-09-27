@@ -1,5 +1,5 @@
 """
-Power BI-equivalent analytics layer — replicates Section III.D of the paper:
+Power BI-equivalent analytics layer — implements Section III.D of the paper:
 custom DAX-style measures for the core ECM KPIs (Change Cycle Time, Approval
 Pending Rate, First-Pass Approval Rate, Change Propagation Index,
 Documentation Error Rate) and the Bottleneck Severity Score (Eq. 3):

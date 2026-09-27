@@ -1,7 +1,7 @@
 """
-Open-source stand-in for the paper's Power BI analytics layer (Section
+Open-source alternative to the paper's Power BI analytics layer (Section
 III.D / Layer 4 in Fig. 1). Power BI itself is proprietary, so this module
-produces the same class of deliverable — live KPI cards, bottleneck
+produces the same class of deliverable — KPI cards, bottleneck
 heatmaps/bars, approval-pipeline trends, predictive/trend charts — using
 only open technology:
 
@@ -64,8 +64,9 @@ DASHBOARD_HTML_TEMPLATE = """<!doctype html>
 <body>
 <header>
   <h1>ECM Digital Thread — Analytics Dashboard</h1>
-  <p>Real-time KPI monitoring, bottleneck detection, and traceability analytics for the
-     Engineering Change Management (ECM) lifecycle in heavy machinery manufacturing.</p>
+  <p>KPI monitoring, bottleneck detection, and traceability analytics for the
+     Engineering Change Management (ECM) lifecycle in heavy machinery manufacturing.
+     Computed from the toolkit's synthetic demonstration dataset.</p>
 </header>
 
 <div class="grid" id="kpi-grid"></div>

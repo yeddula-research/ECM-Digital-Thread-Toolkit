@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ecm-digital-thread-toolkit"
-version = "1.0.0"
-description = "Open-source reproducibility toolkit for 'Accelerating the Digital Thread in Heavy Machinery using Power BI and NLP to Mitigate Bottlenecks in the ECM Lifecycle' (ICCBI-2026)"
+version = "1.1.0"
+description = "Open-source companion toolkit for 'Accelerating the Digital Thread in Heavy Machinery using Power BI and NLP to Mitigate Bottlenecks in the ECM Lifecycle' (ICCBI-2026)"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = { file = "LICENSE" }
 authors = [
     { name = "Vijayakumar Reddy Yeddula" },
@@ -21,6 +21,7 @@ dependencies = [
     "scipy>=1.11",
     "matplotlib>=3.8",
     "seaborn>=0.13",
+    "tabulate>=0.9",
 ]
 
 [project.optional-dependencies]
